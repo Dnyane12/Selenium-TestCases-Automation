@@ -1,0 +1,494 @@
+
+You said:
+ISO 9001-2015 Certified CompanyWeb: www.microproindia.com
+Email: sales@microproindia.com | Phone: +91-93736 93405
+Hackathon Problem Statement: User Internal Chat Option
+6Build an in-app chat system allowing users of the same
+application (VNIT, Hospycare, Dinshaw) to communicate
+securely and seamlessly within the system.
+Objectives
+Enable 1-to-1 and group chat.
+Provide chat history and notifications.
+Support real-time updates using WebSockets.
+Integration as a modular component within the Angular-based
+framework.
+Tech Stack Recommendation
+Frontend: Angular (latest version used in the new framework)
+Backend: Spring Boot (depending on current stack)
+Real-time Communication: Socket.io / WebSocket
+Database: PostgreSQL or MySQL (for chat history)
+Authentication: JWT / OAuth2 (reusing existing auth system)
+Key Features
+• List of Users available in application for chat
+• User Presence Indicator (online/offline/away)
+• Typing Indicator(Optional)
+• Unread Message Count
+• Notification System (in-app + push if mobile)
+• Searchable Chat History
+• Permission-based Access(Optional)
+• File sharing (optional)
+Hackathon Scope (MVP)
+• Login-integrated chat interface
+• Real-time messaging via WebSocket
+• Minimal UI with user list and chat window• Angular module plug-in for easy reuse here i need to complete cross questioning details with all posible positive and negetive test scenarios and test cases along with complete guidance for ppt presentation of this chat application as a roll of tester 
+ChatGPT said:
+
+Updated saved memory
+Awesome, Dnyaneshwari! Since you’re handling testing for the User Internal Chat Option hackathon project, let’s break this down into manageable pieces so you’re fully prepared — from cross-questioning to test cases and the PPT presentation.
+
+✅ 1. Cross-Questioning (QA Perspective)
+These questions help clarify requirements, spot ambiguities, and uncover edge cases:
+
+🔐 Authentication & Authorization
+Does the chat module require re-authentication, or will it reuse session tokens?
+
+Are roles like Admin, User, or Guest defined? Who can message whom?
+
+📱 Real-time Features
+What happens if a user is offline when a message is sent?
+
+Is message delivery guaranteed? (retry mechanisms, delivery receipts?)
+
+Should we show "seen" or "delivered" indicators?
+
+💬 Chat Functions
+Is there a limit on message size or media file size?
+
+Can users delete or edit messages? What about recall?
+
+Is chat persistent across sessions?
+
+💾 Data & Security
+Is chat data encrypted at rest and in transit?
+
+Who can access chat logs? Is there a moderation/logging system?
+
+⚙️ UI/UX & Performance
+What is the expected number of concurrent users?
+
+Will mobile responsiveness be tested? Or just web?
+
+🧪 2. Positive & Negative Test Scenarios
+✅ Positive Test Cases
+
+ID	Scenario	Expected Outcome
+TC01	User logs in and sees the chat list	Chat list with online/offline status is visible
+TC02	User sends a message	Message appears instantly with "sent" status
+TC03	Two users exchange messages	Real-time update on both ends
+TC04	Group chat initiated	Messages visible to all group members
+TC05	User uploads file (if feature is there)	File uploads and appears in chat window
+TC06	User logs in from another browser	Messages sync properly
+TC07	User searches past messages	Accurate results shown
+❌ Negative Test Cases
+
+ID	Scenario	Expected Outcome
+TC08	User sends empty message	"Send" disabled or error shown
+TC09	User sends unsupported file type	Upload blocked, error shown
+TC10	Network disconnects while chatting	Message fails with retry option
+TC11	User with revoked access tries to chat	Access denied error shown
+TC12	SQL injection/HTML script in message	Input sanitized, no execution
+🔄 3. WebSocket Testing Tips
+Use tools like Postman WebSocket or Browser Dev Tools > Network > WS tab
+
+Test scenarios:
+
+Connection establishment & termination
+
+Reconnection logic on failure
+
+Message ordering
+
+Multiple browser tabs or users
+
+📊 4. PPT Presentation (Tester’s Role)
+Here’s a suggested structure:
+
+Slide 1: Title Slide
+Hackathon Name
+
+Project Title: Internal Chat Module
+
+Your Role: QA Tester
+
+Slide 2: Overview
+What the chat system does
+
+Tech stack overview
+
+Slide 3: Testing Objectives
+Ensure functional correctness
+
+Validate real-time behavior
+
+Ensure data security
+
+Provide scalable, modular testing
+
+Slide 4: Test Strategy
+Manual testing + automation scope (if any)
+
+Functional, UI, API, WebSocket testing
+
+Real-time & edge case validation
+
+Slide 5: Test Scenarios & Test Cases
+Table format: Scenario | Expected Result | Status
+
+Include screenshots (if available)
+
+Slide 6: Bug Reports / Observations
+Issues found (if any)
+
+Suggestions for improvement
+
+Slide 7: Tools Used
+Postman (API testing)
+
+WebSocket tab in browser
+
+DB verification (pgAdmin/MySQL Workbench)
+
+Slide 8: Summary & Challenges
+What worked well
+
+What needed clarification
+
+Real-time testing challenges
+
+Slide 9: Q&A
+Be ready for questions like:
+
+"How did you verify WebSocket functionality?"
+
+"How would this scale to 1,000 users?"
+
+Would you like a downloadable test case Excel sheet, or shall I help you create the actual PPT deck now?
+
+
+
+
+
+
+
+You said:
+ Q&A
+Be ready for questions like:
+
+"How did you verify WebSocket functionality?"
+
+"How would this scale to 1,000 users?"
+ please provide in depth and all possible questiens for tester
+
+
+ChatGPT said:
+Great! Being prepared for the Q&A round is crucial, especially in a hackathon where testers are often challenged to demonstrate depth of understanding, testing strategy, and real-time problem-solving. Here's an in-depth list of questions that might be asked, along with strong answers tailored for your role as a tester in this in-app chat system project.
+
+🧠 General QA Questions
+1. How did you verify WebSocket functionality?
+Answer:
+
+I verified WebSocket connectivity using browser dev tools (Network > WS tab) to observe connection frames.
+
+Sent messages through the UI and monitored onmessage and onclose events.
+
+Simulated network drops to ensure reconnect logic.
+
+Used test users in separate browsers to ensure bi-directional real-time communication.
+
+Verified message order and ensured no duplication.
+
+2. How would this scale to 1,000+ users?
+Answer:
+
+From a tester's perspective, I would recommend:
+
+Load testing WebSocket connections using tools like Gatling or Apache JMeter with WebSocket plugin.
+
+Observing message delivery time, order, and system CPU/memory under load.
+
+Ensuring no crashes, slowdowns, or message loss under concurrent users.
+
+Backend should use STOMP over WebSocket with RabbitMQ for scalability (if applicable).
+
+3. How did you test the chat when one user is offline?
+Answer:
+
+Sent messages while user B was offline.
+
+Verified that messages were queued/stored in the database.
+
+Upon B’s login, ensured proper delivery with timestamp, unread count, and notifications.
+
+Also tested scenarios with partial message delivery due to logout during conversation.
+
+4. How did you ensure messages aren’t lost or duplicated?
+Answer:
+
+Checked message IDs in DB to avoid duplicates.
+
+Verified acknowledgement system (if implemented) via WebSocket.
+
+Simulated network failures to ensure retry/resend logic.
+
+5. How did you validate message order?
+Answer:
+
+Sent multiple messages in quick succession from User A to B.
+
+Compared timestamps and IDs in both frontend and backend DB to verify ordering.
+
+6. How did you test notifications (in-app or push)?
+Answer:
+
+Triggered message send event while receiver was in another chat or inactive tab.
+
+Verified UI badge counter, sound, and/or pop-up.
+
+(For mobile) Would suggest integration with Firebase Cloud Messaging (if scope allowed).
+
+7. What edge cases did you consider for message input?
+Answer:
+
+Very long messages (>1000 characters).
+
+Special characters, emojis, and non-English input (Unicode support).
+
+Sending HTML/JS code (to test XSS protection).
+
+Empty or whitespace-only messages.
+
+8. What security checks did you perform?
+Answer:
+
+JWT token validation during socket handshake.
+
+Checked for message injection, URL tampering, and unauthorized access to others' chats.
+
+Sent invalid token manually and ensured access denial.
+
+Validated input encoding to avoid XSS or SQL injection.
+
+9. How did you test user presence (online/offline/away)?
+Answer:
+
+Observed presence indicators in UI when user connected/disconnected.
+
+Verified real-time updates across multiple sessions/devices.
+
+Idle timeout tested for "away" status (if implemented).
+
+10. How did you test file sharing (if included)?
+Answer:
+
+Uploaded various file types and sizes.
+
+Verified preview, download, and storage.
+
+Tried uploading unsupported formats and received appropriate error messages.
+
+11. What would be your test strategy if message delivery fails?
+Answer:
+
+Retry logic validation on frontend.
+
+Server logs for error tracing.
+
+Verify if failed messages were stored for retry.
+
+Alert/notification shown to sender about delivery failure.
+
+🧪 Additional Questions You Might Face
+
+Question	Tip for Answer
+How many test cases did you write?	Mention number of functional, UI, WebSocket, and negative cases.
+Did you use any test data management strategy?	Mention creating users, dummy messages, and cleanup scripts.
+What did you automate, if anything?	API testing, load testing scope, or basic regression using Selenium.
+Did you test responsiveness across devices?	Yes, tested with dev tools (Chrome, Firefox, responsive mode).
+How did you simulate multiple users?	Used multiple browser instances, incognito tabs, or local test users.
+Would you like me to convert this into a printable/tester-friendly Q&A sheet or embed it into your PowerPoint presentation as a backup slide for Q&A prep?
+
+
+
+
+
+
+
+You said:
+what can be the all posible test cases
+
+
+ChatGPT said:
+Absolutely, Dnyaneshwari! Here’s a complete list of test cases for your In-App Chat System project, categorized by feature for better organization. This includes all positive, negative, edge, security, UI, and performance test cases relevant to your MVP.
+
+✅ A. Authentication & Authorization
+
+TC ID	Test Case	Expected Result
+A01	User logs in with valid credentials	User is redirected to chat page
+A02	User logs in with invalid credentials	Error message displayed
+A03	User without chat permissions tries to access chat	Access denied message
+A04	JWT expired or tampered	Session invalidated, user redirected to login
+🗂️ B. User List & Presence
+
+TC ID	Test Case	Expected Result
+B01	User logs in and sees other users	Online/offline status shown
+B02	New user comes online	Status changes to online in real-time
+B03	User logs out	Status updates to offline for others
+B04	User opens multiple sessions	Presence shown as online on all devices
+B05	User inactive for long time	Status changes to away (if implemented)
+💬 C. 1-to-1 Messaging
+
+TC ID	Test Case	Expected Result
+C01	Send a message to another user	Message delivered in real-time
+C02	Send special characters/emojis	Message displayed correctly
+C03	Send long message (e.g., 1000+ characters)	Full message sent and received
+C04	Send empty message	Message not allowed
+C05	Message ordering	Messages appear in correct order
+C06	Message persistence	Messages stored and visible after reload
+C07	Send message when receiver is offline	Message queued & delivered later
+👥 D. Group Chat
+
+TC ID	Test Case	Expected Result
+D01	User sends message in group	All members receive message in real-time
+D02	New member joins group	Receives messages from that point onwards
+D03	User leaves group	Cannot send/receive messages post-leave
+🔁 E. WebSocket Functionality
+
+TC ID	Test Case	Expected Result
+E01	WebSocket connection opens on login	Connection successful
+E02	Send/receive message via WebSocket	Real-time transmission
+E03	Disconnect WebSocket (manual or network drop)	Connection closed & reconnect logic tested
+E04	WebSocket invalid token	Access denied or disconnect triggered
+📁 F. File Sharing (if implemented)
+
+TC ID	Test Case	Expected Result
+F01	Upload supported file	File successfully uploaded & visible
+F02	Upload large file (>10MB)	Error or compression
+F03	Upload unsupported file type	Error message shown
+F04	File download	File downloads correctly on click
+🔍 G. Search & History
+
+TC ID	Test Case	Expected Result
+G01	Search keyword from chat history	Matching messages shown
+G02	Search for non-existent term	"No results found"
+G03	Chat history reload after logout/login	Older messages preserved
+📩 H. Notifications & Unread Messages
+
+TC ID	Test Case	Expected Result
+H01	User receives a new message	Notification badge shown
+H02	User reads message	Unread counter resets
+H03	Message received in inactive tab	In-app notification shown
+H04	Push notification when mobile (optional)	Mobile notification triggered
+🔐 I. Security Test Cases
+
+TC ID	Test Case	Expected Result
+I01	Try to access chat without auth token	Access denied
+I02	Send SQL injection string in message	Input sanitized
+I03	Send script tag in message	Script not executed (XSS prevention)
+I04	Token tampering or replay attack	Rejected by backend
+🎨 J. UI/UX Test Cases
+
+TC ID	Test Case	Expected Result
+J01	Responsive UI on mobile/tablet	UI adjusts correctly
+J02	Scroll up loads older messages (pagination)	Older messages fetched
+J03	Typing indicator shows	Correctly displayed to receiver
+J04	Input box clears after sending	Input field reset to blank
+J05	Theme/color contrast	Text/icons clearly visible
+🚀 K. Performance Test Cases
+
+TC ID	Test Case	Expected Result
+K01	1000 concurrent users send messages	System remains stable
+K02	High message throughput (stress test)	No message loss/delay
+K03	Latency test across networks	Messages delivered < X ms on average
+K04	Load test for file upload/download	No timeout or crash
+💡 Bonus Suggestion:
+Would you like an Excel or Google Sheet version of all these test cases (with Priority, Severity, Status columns)? I can prepare that quickly for your submission and test tracking.
+
+
+
+
+
+
+
+You said:
+how to remove highlited  texts above
+
+
+ChatGPT said:
+If you're referring to removing the highlighted formatting (like bold or color) from text in a document (e.g., Word, Google Docs, or email), here’s how you can do it depending on where you're working:
+
+✅ In Microsoft Word
+Select the highlighted text.
+
+Go to the Home tab.
+
+Click the Text Highlight Color icon (the one with a highlighter pen).
+
+Select "No Color".
+
+✅ In Google Docs
+Select the highlighted text.
+
+Click on the Highlight color icon (a little marker) in the toolbar.
+
+Click "None".
+
+✅ In Email Editors (like Gmail, Outlook)
+Highlight the text.
+
+Look for the highlight or background color tool (usually a paint roller or “A” with color).
+
+Choose "None" or "Remove Formatting".
+
+✅ If you're asking how to remove formatting in this Chat view or while copying from ChatGPT:
+Paste the text into Notepad first to strip all formatting.
+
+Then copy it from Notepad to your desired editor.
+
+Let me know what platform you’re using (Word, Google Docs, etc.) and I’ll guide you specifically.
+
+
+
+
+
+
+
+You said:
+how to remove highlighted text using weava highliter
+
+
+ChatGPT said:
+Ah, got it! If you're using Weava Highlighter (a browser extension often used to highlight and organize research content on web pages), here's how you can remove a highlight:
+
+✅ Steps to Remove Highlight in Weava:
+🔹 Option 1: Directly on the Web Page
+Hover over the highlighted text.
+
+You’ll see a Weava popup toolbar with options.
+
+Click on the trash can icon 🗑️ – this will delete the highlight.
+
+🔹 Option 2: From the Weava Dashboard
+Go to the Weava Dashboard: https://weavatools.com/dashboard
+
+Open the project or folder where your highlight is saved.
+
+Find the specific highlight you want to remove.
+
+Click on the three dots (⋮) next to the highlight.
+
+Choose "Delete".
+
+🔁 Optional Tips:
+If you're trying to change the color instead of removing, just hover and use the color picker icon instead of the trash can.
+
+If the Weava popup isn’t appearing, make sure the extension is active and you’re logged in.
+
+Let me know if you’re using it inside a specific website or PDF viewer, and I’ll tailor the steps further!
+
+
+
+
+
+
+
+
